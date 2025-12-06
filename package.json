@@ -1,0 +1,52 @@
+{
+  "name": "@anthropic/ai-components",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI-native React components for building chatbots, vibe-coding interfaces, and workflow editors",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.10.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.0.0",
+    "react-syntax-highlighter": "^16.1.0",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ai",
+    "chatbot",
+    "workflow",
+    "ui",
+    "tailwindcss",
+    "typescript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rudushi4/ai-components.git"
+  }
+}
