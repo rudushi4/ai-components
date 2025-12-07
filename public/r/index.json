@@ -1,0 +1,148 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "ai-components",
+  "homepage": "https://rudushi4.github.io/ai-components",
+  "items": [
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "description": "Chat message component with avatar, content, and timestamp",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/chatbot/message.tsx"]
+    },
+    {
+      "name": "conversation",
+      "type": "registry:ui",
+      "description": "Container for chat messages with auto-scrolling",
+      "dependencies": ["clsx"],
+      "registryDependencies": ["message", "loader"],
+      "files": ["components/chatbot/conversation.tsx"]
+    },
+    {
+      "name": "loader",
+      "type": "registry:ui",
+      "description": "Loading indicators for AI operations",
+      "dependencies": ["clsx"],
+      "files": ["components/chatbot/loader.tsx"]
+    },
+    {
+      "name": "shimmer",
+      "type": "registry:ui",
+      "description": "Skeleton loading animation",
+      "dependencies": ["clsx"],
+      "files": ["components/chatbot/shimmer.tsx"]
+    },
+    {
+      "name": "prompt-input",
+      "type": "registry:ui",
+      "description": "Advanced input with model selection and attachments",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/chatbot/prompt-input.tsx"]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "description": "Syntax-highlighted code display",
+      "dependencies": ["clsx", "lucide-react", "react-syntax-highlighter"],
+      "devDependencies": ["@types/react-syntax-highlighter"],
+      "files": ["components/chatbot/code-block.tsx"]
+    },
+    {
+      "name": "chain-of-thought",
+      "type": "registry:ui",
+      "description": "Visualize AI reasoning steps",
+      "dependencies": ["clsx", "lucide-react", "framer-motion"],
+      "files": ["components/chatbot/chain-of-thought.tsx"]
+    },
+    {
+      "name": "reasoning",
+      "type": "registry:ui",
+      "description": "Collapsible AI reasoning display",
+      "dependencies": ["clsx", "lucide-react", "framer-motion"],
+      "files": ["components/chatbot/reasoning.tsx"]
+    },
+    {
+      "name": "response",
+      "type": "registry:ui",
+      "description": "Formatted AI response with actions",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/chatbot/response.tsx"]
+    },
+    {
+      "name": "actions",
+      "type": "registry:ui",
+      "description": "Action buttons for AI responses",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/chatbot/actions.tsx"]
+    },
+    {
+      "name": "artifact",
+      "type": "registry:ui",
+      "description": "Code/document artifact display with preview",
+      "dependencies": ["clsx", "lucide-react", "react-syntax-highlighter", "framer-motion"],
+      "files": ["components/vibe-coding/artifact.tsx"]
+    },
+    {
+      "name": "web-preview",
+      "type": "registry:ui",
+      "description": "Embedded web preview with device simulation",
+      "dependencies": ["clsx", "lucide-react", "framer-motion"],
+      "files": ["components/vibe-coding/web-preview.tsx"]
+    },
+    {
+      "name": "workflow-canvas",
+      "type": "registry:ui",
+      "description": "ReactFlow-based workflow builder canvas",
+      "dependencies": ["clsx", "@xyflow/react"],
+      "files": ["components/workflow/canvas.tsx"]
+    },
+    {
+      "name": "workflow-node",
+      "type": "registry:ui",
+      "description": "Custom workflow node component",
+      "dependencies": ["clsx", "lucide-react", "@xyflow/react"],
+      "files": ["components/workflow/node.tsx"]
+    },
+    {
+      "name": "workflow-edge",
+      "type": "registry:ui",
+      "description": "Custom workflow edge component",
+      "dependencies": ["clsx", "@xyflow/react"],
+      "files": ["components/workflow/edge.tsx"]
+    },
+    {
+      "name": "workflow-controls",
+      "type": "registry:ui",
+      "description": "Workflow zoom and fit controls",
+      "dependencies": ["clsx", "lucide-react", "@xyflow/react"],
+      "files": ["components/workflow/controls.tsx"]
+    },
+    {
+      "name": "workflow-panel",
+      "type": "registry:ui",
+      "description": "Workflow info panel",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/workflow/panel.tsx"]
+    },
+    {
+      "name": "workflow-toolbar",
+      "type": "registry:ui",
+      "description": "Workflow action toolbar",
+      "dependencies": ["clsx", "lucide-react"],
+      "files": ["components/workflow/toolbar.tsx"]
+    },
+    {
+      "name": "design-system",
+      "type": "registry:lib",
+      "description": "Design system utilities with MUST/SHOULD/NEVER guidelines",
+      "files": ["lib/design-system.ts"]
+    },
+    {
+      "name": "use-responsive",
+      "type": "registry:hook",
+      "description": "Responsive and accessibility hooks",
+      "registryDependencies": ["design-system"],
+      "files": ["hooks/useResponsive.ts"]
+    }
+  ]
+}

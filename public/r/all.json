@@ -1,0 +1,128 @@
+{
+  "name": "ai-components",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "dependencies": [
+    "clsx",
+    "lucide-react",
+    "react-syntax-highlighter",
+    "framer-motion"
+  ],
+  "devDependencies": [
+    "@types/react-syntax-highlighter"
+  ],
+  "tailwind": {
+    "config": {
+      "theme": {
+        "extend": {
+          "keyframes": {
+            "fadeIn": {
+              "from": { "opacity": "0" },
+              "to": { "opacity": "1" }
+            },
+            "slideUp": {
+              "from": { "transform": "translateY(10px)", "opacity": "0" },
+              "to": { "transform": "translateY(0)", "opacity": "1" }
+            },
+            "scaleIn": {
+              "from": { "transform": "scale(0.95)", "opacity": "0" },
+              "to": { "transform": "scale(1)", "opacity": "1" }
+            },
+            "pulse-gentle": {
+              "0%, 100%": { "opacity": "1" },
+              "50%": { "opacity": "0.7" }
+            }
+          },
+          "animation": {
+            "fadeIn": "fadeIn 0.2s ease-out",
+            "slideUp": "slideUp 0.2s ease-out",
+            "scaleIn": "scaleIn 0.2s ease-out",
+            "pulse-gentle": "pulse-gentle 2s ease-in-out infinite"
+          }
+        }
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "lib/design-system.ts",
+      "type": "registry:lib"
+    },
+    {
+      "path": "hooks/useResponsive.ts",
+      "type": "registry:hook"
+    },
+    {
+      "path": "components/chatbot/message.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/conversation.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/loader.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/shimmer.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/prompt-input.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/code-block.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/chain-of-thought.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/reasoning.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/response.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/chatbot/actions.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/vibe-coding/artifact.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/vibe-coding/web-preview.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/canvas.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/node.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/edge.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/controls.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/panel.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "path": "components/workflow/toolbar.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}
