@@ -1,54 +1,94 @@
 import React, { useState } from 'react';
 import {
-  Message, Conversation, Loader, Shimmer, ChainOfThought, Reasoning, Response, Actions, useDefaultActions,
-  CodeBlock, Context, InlineCitation, Sources, PromptInput, Suggestion, Plan, Task, Tool, Confirmation,
-  OpenInChat, Artifact, WebPreview, WorkflowCanvas,
-} from './components';
+  Message,
+  Conversation,
+  Loader,
+  Shimmer,
+  ChainOfThought,
+  Reasoning,
+  Response,
+  Actions,
+  useDefaultActions,
+  CodeBlock,
+  PromptInput,
+} from './components/chatbot';
+import { Artifact, WebPreview } from './components/vibe-coding';
+import { WorkflowCanvas } from './components/workflow';
 import { DocsPage, GuidelinesPage } from './pages';
-import type { Message as MessageType, Source, ReasoningStep, ToolCall, Plan as PlanType, ConfirmationRequest, Suggestion as SuggestionType } from './types';
 
+// Demo data types
+interface MessageType {
+  id: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp?: Date;
+  status?: 'sending' | 'sent' | 'error' | 'complete';
+}
+
+interface ReasoningStep {
+  id: string;
+  title: string;
+  content?: string;
+  status: 'pending' | 'thinking' | 'complete' | 'error';
+  duration?: number;
+}
+
+// Demo data
 const demoMessages: MessageType[] = [
-  { id: '1', role: 'user', content: 'Can you help me understand how React hooks work?', timestamp: new Date() },
-  { id: '2', role: 'assistant', content: 'React Hooks are functions that let you "hook into" React state and lifecycle features from function components.', timestamp: new Date(), status: 'complete' },
-];
-
-const demoSources: Source[] = [
-  { id: '1', title: 'React Documentation - Hooks', url: 'https://react.dev/reference/react', snippet: 'Official React documentation for Hooks API' },
-  { id: '2', title: 'Understanding React Hooks', url: 'https://example.com/hooks', snippet: 'A comprehensive guide to React Hooks' },
+  {
+    id: '1',
+    role: 'user',
+    content: 'Can you help me understand how React hooks work?',
+    timestamp: new Date(),
+  },
+  {
+    id: '2',
+    role: 'assistant',
+    content: 'React Hooks are functions that let you "hook into" React state and lifecycle features from function components. They were introduced in React 16.8 and allow you to use state and other React features without writing a class.',
+    timestamp: new Date(),
+    status: 'complete',
+  },
 ];
 
 const demoReasoningSteps: ReasoningStep[] = [
   { id: '1', title: 'Analyzing query', content: 'Understanding the user question about React hooks', status: 'complete', duration: 120 },
-  { id: '2', title: 'Searching knowledge', content: 'Looking up React hooks documentation', status: 'complete', duration: 340 },
+  { id: '2', title: 'Searching knowledge', content: 'Looking up React hooks documentation and examples', status: 'complete', duration: 340 },
   { id: '3', title: 'Formulating response', content: 'Preparing a comprehensive explanation', status: 'thinking' },
 ];
 
-const demoToolCalls: ToolCall[] = [{ id: '1', name: 'search_documentation', status: 'complete', input: { query: 'React hooks' }, output: { results: 15 }, duration: 245 }];
-
-const demoPlan: PlanType = {
-  id: '1', title: 'Build React Application', description: 'Create a new React app', status: 'in_progress',
-  tasks: [
-    { id: '1', title: 'Set up project structure', status: 'completed' },
-    { id: '2', title: 'Install dependencies', status: 'completed' },
-    { id: '3', title: 'Create components', status: 'in_progress', progress: 60 },
-    { id: '4', title: 'Add styling', status: 'pending' },
-  ],
-};
-
-const demoConfirmation: ConfirmationRequest = { id: '1', title: 'Execute Database Migration', description: 'This will modify your database schema.', tool: 'run_migration', input: { version: '2.0' }, status: 'pending' };
-const demoSuggestions: SuggestionType[] = [{ id: '1', text: 'Explain useEffect hook', category: 'code' }, { id: '2', text: 'Show useState examples', category: 'code' }];
-
-const demoCode = `import { useState } from 'react';
+const demoCode = `import { useState, useEffect } from 'react';
 
 function useCounter(initialValue = 0) {
   const [count, setCount] = useState(initialValue);
-  return { count, increment: () => setCount(c => c + 1) };
-}`;
+
+  const increment = () => setCount(c => c + 1);
+  const decrement = () => setCount(c => c - 1);
+  const reset = () => setCount(initialValue);
+
+  return { count, increment, decrement, reset };
+}
+
+export default useCounter;`;
 
 const demoWorkflowNodes = [
-  { id: '1', type: 'workflow', position: { x: 100, y: 100 }, data: { label: 'Start', type: 'trigger', status: 'complete' } },
-  { id: '2', type: 'workflow', position: { x: 350, y: 100 }, data: { label: 'Process', type: 'process', status: 'running', progress: 65 } },
-  { id: '3', type: 'workflow', position: { x: 600, y: 100 }, data: { label: 'AI Analysis', type: 'ai', status: 'pending' } },
+  {
+    id: '1',
+    type: 'workflow',
+    position: { x: 100, y: 100 },
+    data: { label: 'Start', description: 'Trigger workflow', type: 'trigger', status: 'complete' },
+  },
+  {
+    id: '2',
+    type: 'workflow',
+    position: { x: 350, y: 100 },
+    data: { label: 'Process Data', description: 'Transform input', type: 'process', status: 'running', progress: 65 },
+  },
+  {
+    id: '3',
+    type: 'workflow',
+    position: { x: 600, y: 100 },
+    data: { label: 'AI Analysis', description: 'Generate insights', type: 'ai', status: 'pending' },
+  },
 ];
 
 const demoWorkflowEdges = [
@@ -60,54 +100,247 @@ function App() {
   const [view, setView] = useState<'demo' | 'docs' | 'guidelines'>('docs');
   const [activeTab, setActiveTab] = useState<'chatbot' | 'vibe' | 'workflow'>('chatbot');
   const [inputValue, setInputValue] = useState('');
-  const actions = useDefaultActions({ onCopy: () => {}, onLike: () => {}, onDislike: () => {}, onRegenerate: () => {} });
 
+  const actions = useDefaultActions({
+    onCopy: () => console.log('Copied!'),
+    onLike: () => console.log('Liked!'),
+    onDislike: () => console.log('Disliked!'),
+    onRegenerate: () => console.log('Regenerating...'),
+  });
+
+  // Floating navigation for all views
   const FloatingNav = () => (
     <div className="fixed bottom-4 right-4 z-50 flex gap-2">
-      {view !== 'docs' && <button onClick={() => setView('docs')} className="px-4 py-2 min-h-[44px] bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:bg-gray-50 flex items-center gap-2 border focus-visible:ring-2 focus-visible:ring-blue-500">Docs</button>}
-      {view !== 'guidelines' && <button onClick={() => setView('guidelines')} className="px-4 py-2 min-h-[44px] bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:bg-gray-50 flex items-center gap-2 border focus-visible:ring-2 focus-visible:ring-blue-500">Guidelines</button>}
-      {view !== 'demo' && <button onClick={() => setView('demo')} className="px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-blue-500">Demo</button>}
+      {view !== 'docs' && (
+        <button
+          onClick={() => setView('docs')}
+          className="px-4 py-2 min-h-[44px] bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 border border-gray-200 dark:border-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          aria-label="View documentation"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span className="hidden sm:inline">Docs</span>
+        </button>
+      )}
+      {view !== 'guidelines' && (
+        <button
+          onClick={() => setView('guidelines')}
+          className="px-4 py-2 min-h-[44px] bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg shadow-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2 border border-gray-200 dark:border-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          aria-label="View UI/UX guidelines"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          <span className="hidden sm:inline">Guidelines</span>
+        </button>
+      )}
+      {view !== 'demo' && (
+        <button
+          onClick={() => setView('demo')}
+          className="px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          aria-label="View component demo"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <span className="hidden sm:inline">Demo</span>
+        </button>
+      )}
     </div>
   );
 
-  if (view === 'docs') return <div><FloatingNav /><DocsPage /></div>;
-  if (view === 'guidelines') return <div><FloatingNav /><GuidelinesPage /></div>;
+  // Show docs page
+  if (view === 'docs') {
+    return (
+      <div>
+        <FloatingNav />
+        <DocsPage />
+      </div>
+    );
+  }
+
+  // Show guidelines page
+  if (view === 'guidelines') {
+    return (
+      <div>
+        <FloatingNav />
+        <GuidelinesPage />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
-      <header className="bg-white dark:bg-gray-900 border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">AI Components Library</h1>
-          <div className="flex gap-4 mt-4">
+      {/* Header */}
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              AI Components Library
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Pre-built components for AI-driven applications
+            </p>
+          </div>
+          <button
+            onClick={() => setView('docs')}
+            className="px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Documentation
+          </button>
+        </div>
+
+        {/* Tabs */}
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex gap-4 border-b border-gray-200 dark:border-gray-800">
             {(['chatbot', 'vibe', 'workflow'] as const).map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-3 border-b-2 ${activeTab === tab ? 'border-blue-500 text-blue-600' : 'border-transparent'}`}>
-                {tab === 'chatbot' ? 'Chatbot' : tab === 'vibe' ? 'Vibe-Coding' : 'Workflow'}
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+                  activeTab === tab
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                }`}
+              >
+                {tab === 'chatbot' && 'Chatbot Components'}
+                {tab === 'vibe' && 'Vibe-Coding'}
+                {tab === 'workflow' && 'Workflow'}
               </button>
             ))}
           </div>
         </div>
       </header>
-      <main className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+      {/* Content */}
+      <main className="max-w-7xl mx-auto px-4 py-8">
         {activeTab === 'chatbot' && (
-          <>
-            <Section title="Conversation"><Conversation messages={demoMessages} /><PromptInput value={inputValue} onChange={setInputValue} /></Section>
-            <Section title="Loading"><div className="flex gap-6"><Loader variant="spinner" /><Loader variant="dots" /><Loader variant="typing" /></div><Shimmer lines={3} /></Section>
-            <Section title="Reasoning"><ChainOfThought steps={demoReasoningSteps} /><Reasoning content="Analyzing React hooks..." duration={1250} /></Section>
-            <Section title="Code"><CodeBlock code={demoCode} language="typescript" filename="useCounter.ts" /></Section>
-            <Section title="Sources"><Sources sources={demoSources} /></Section>
-            <Section title="Plan"><Plan plan={demoPlan} /></Section>
-            <Section title="Tool"><Tool tool={demoToolCalls[0]} /></Section>
-            <Section title="Confirmation"><Confirmation request={demoConfirmation} /></Section>
-          </>
+          <div className="space-y-12">
+            {/* Messages */}
+            <Section title="Messages & Conversation">
+              <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+                <Conversation messages={demoMessages} />
+                <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+                  <PromptInput
+                    value={inputValue}
+                    onChange={setInputValue}
+                    placeholder="Type a message..."
+                    showModelSelector={false}
+                  />
+                </div>
+              </div>
+            </Section>
+
+            {/* Loading States */}
+            <Section title="Loading States">
+              <div className="flex flex-wrap gap-6">
+                <Loader variant="spinner" text="Loading..." />
+                <Loader variant="dots" text="Processing..." />
+                <Loader variant="pulse" />
+                <Loader variant="typing" />
+              </div>
+              <div className="mt-6">
+                <Shimmer lines={4} />
+              </div>
+            </Section>
+
+            {/* Chain of Thought */}
+            <Section title="Chain of Thought & Reasoning">
+              <div className="grid md:grid-cols-2 gap-6">
+                <ChainOfThought steps={demoReasoningSteps} />
+                <Reasoning
+                  content="The user is asking about React hooks, which are functions that let you use state and other React features in functional components. I should explain the core concepts including useState, useEffect, and custom hooks."
+                  duration={1250}
+                />
+              </div>
+            </Section>
+
+            {/* Response with Actions */}
+            <Section title="Response with Actions">
+              <Response
+                content="React Hooks are powerful features that allow you to use state and lifecycle methods in functional components. The most commonly used hooks are useState and useEffect."
+                showActions
+                onRegenerate={() => console.log('Regenerate')}
+                onFeedback={(positive) => console.log('Feedback:', positive)}
+              />
+              <div className="mt-4">
+                <Actions actions={actions} variant="default" />
+              </div>
+            </Section>
+
+            {/* Code Block */}
+            <Section title="Code Block">
+              <CodeBlock
+                code={demoCode}
+                language="typescript"
+                filename="useCounter.ts"
+                showLineNumbers
+                showCopyButton
+              />
+            </Section>
+          </div>
         )}
+
         {activeTab === 'vibe' && (
-          <>
-            <Section title="Artifact"><Artifact type="code" title="useCounter.ts" content={demoCode} /></Section>
-            <Section title="Web Preview"><WebPreview html="<html><body><h1>Hello!</h1></body></html>" height={300} /></Section>
-          </>
+          <div className="space-y-12">
+            {/* Artifact */}
+            <Section title="Code Artifact">
+              <Artifact
+                type="code"
+                title="useCounter.ts"
+                content={demoCode}
+                language="typescript"
+              />
+            </Section>
+
+            {/* Web Preview */}
+            <Section title="Web Preview">
+              <WebPreview
+                html={`
+                  <!DOCTYPE html>
+                  <html>
+                    <head>
+                      <style>
+                        body { font-family: system-ui; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; margin: 0; display: flex; align-items: center; justify-content: center; }
+                        .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); text-align: center; }
+                        h1 { color: #1f2937; margin: 0 0 0.5rem; }
+                        p { color: #6b7280; margin: 0; }
+                      </style>
+                    </head>
+                    <body>
+                      <div class="card">
+                        <h1>Hello, AI Components!</h1>
+                        <p>This is a live web preview</p>
+                      </div>
+                    </body>
+                  </html>
+                `}
+                title="Live Preview"
+                height={400}
+              />
+            </Section>
+          </div>
         )}
+
         {activeTab === 'workflow' && (
-          <Section title="Workflow Canvas"><div className="h-[500px]"><WorkflowCanvas nodes={demoWorkflowNodes} edges={demoWorkflowEdges} /></div></Section>
+          <div className="space-y-12">
+            {/* Workflow Canvas */}
+            <Section title="Workflow Canvas">
+              <div className="h-[500px]">
+                <WorkflowCanvas
+                  nodes={demoWorkflowNodes}
+                  edges={demoWorkflowEdges}
+                  showMiniMap
+                  showControls
+                />
+              </div>
+            </Section>
+          </div>
         )}
       </main>
       <FloatingNav />
@@ -115,8 +348,16 @@ function App() {
   );
 }
 
+// Section component
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return <section><h2 className="text-lg font-semibold mb-4">{title}</h2>{children}</section>;
+  return (
+    <section>
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
 }
 
 export default App;
