@@ -1,0 +1,12 @@
+{
+  "name": "workflow-edge",
+  "type": "registry:ui",
+  "description": "Custom workflow edge component",
+  "dependencies": ["clsx", "@xyflow/react"],
+  "files": [
+    {
+      "path": "components/workflow/edge.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

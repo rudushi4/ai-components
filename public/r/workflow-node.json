@@ -1,0 +1,12 @@
+{
+  "name": "workflow-node",
+  "type": "registry:ui",
+  "description": "Custom workflow node component",
+  "dependencies": ["clsx", "lucide-react", "@xyflow/react"],
+  "files": [
+    {
+      "path": "components/workflow/node.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

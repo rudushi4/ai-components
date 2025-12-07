@@ -1,0 +1,12 @@
+{
+  "name": "workflow-controls",
+  "type": "registry:ui",
+  "description": "Workflow zoom and fit controls",
+  "dependencies": ["clsx", "lucide-react", "@xyflow/react"],
+  "files": [
+    {
+      "path": "components/workflow/controls.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

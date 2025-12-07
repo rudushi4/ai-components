@@ -1,0 +1,12 @@
+{
+  "name": "workflow-panel",
+  "type": "registry:ui",
+  "description": "Workflow info panel",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/workflow/panel.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

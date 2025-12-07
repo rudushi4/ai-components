@@ -1,0 +1,11 @@
+{
+  "name": "design-system",
+  "type": "registry:lib",
+  "description": "Design system utilities with MUST/SHOULD/NEVER guidelines",
+  "files": [
+    {
+      "path": "lib/design-system.ts",
+      "type": "registry:lib"
+    }
+  ]
+}

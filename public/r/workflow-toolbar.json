@@ -1,0 +1,12 @@
+{
+  "name": "workflow-toolbar",
+  "type": "registry:ui",
+  "description": "Workflow action toolbar",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/workflow/toolbar.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

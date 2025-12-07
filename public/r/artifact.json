@@ -1,0 +1,13 @@
+{
+  "name": "artifact",
+  "type": "registry:ui",
+  "description": "Code/document artifact display with preview",
+  "dependencies": ["clsx", "lucide-react", "react-syntax-highlighter", "framer-motion"],
+  "devDependencies": ["@types/react-syntax-highlighter"],
+  "files": [
+    {
+      "path": "components/vibe-coding/artifact.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

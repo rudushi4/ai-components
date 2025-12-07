@@ -1,0 +1,12 @@
+{
+  "name": "web-preview",
+  "type": "registry:ui",
+  "description": "Embedded web preview with device simulation",
+  "dependencies": ["clsx", "lucide-react", "framer-motion"],
+  "files": [
+    {
+      "path": "components/vibe-coding/web-preview.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

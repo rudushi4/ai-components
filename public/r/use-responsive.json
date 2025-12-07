@@ -1,0 +1,12 @@
+{
+  "name": "use-responsive",
+  "type": "registry:hook",
+  "description": "Responsive and accessibility hooks",
+  "registryDependencies": ["design-system"],
+  "files": [
+    {
+      "path": "hooks/useResponsive.ts",
+      "type": "registry:hook"
+    }
+  ]
+}

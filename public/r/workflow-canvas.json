@@ -1,0 +1,13 @@
+{
+  "name": "workflow-canvas",
+  "type": "registry:ui",
+  "description": "ReactFlow-based workflow builder canvas",
+  "dependencies": ["clsx", "@xyflow/react"],
+  "registryDependencies": ["workflow-node", "workflow-edge", "workflow-controls"],
+  "files": [
+    {
+      "path": "components/workflow/canvas.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}
