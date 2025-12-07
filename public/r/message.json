@@ -1,0 +1,12 @@
+{
+  "name": "message",
+  "type": "registry:ui",
+  "description": "Chat message component with avatar, content, and timestamp",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/chatbot/message.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

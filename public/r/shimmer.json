@@ -1,0 +1,12 @@
+{
+  "name": "shimmer",
+  "type": "registry:ui",
+  "description": "Skeleton loading animation",
+  "dependencies": ["clsx"],
+  "files": [
+    {
+      "path": "components/chatbot/shimmer.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

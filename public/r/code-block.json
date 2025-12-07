@@ -1,0 +1,13 @@
+{
+  "name": "code-block",
+  "type": "registry:ui",
+  "description": "Syntax-highlighted code display",
+  "dependencies": ["clsx", "lucide-react", "react-syntax-highlighter"],
+  "devDependencies": ["@types/react-syntax-highlighter"],
+  "files": [
+    {
+      "path": "components/chatbot/code-block.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

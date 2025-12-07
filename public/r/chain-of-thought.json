@@ -1,0 +1,12 @@
+{
+  "name": "chain-of-thought",
+  "type": "registry:ui",
+  "description": "Visualize AI reasoning steps",
+  "dependencies": ["clsx", "lucide-react", "framer-motion"],
+  "files": [
+    {
+      "path": "components/chatbot/chain-of-thought.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

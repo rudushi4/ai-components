@@ -1,0 +1,12 @@
+{
+  "name": "reasoning",
+  "type": "registry:ui",
+  "description": "Collapsible AI reasoning display",
+  "dependencies": ["clsx", "lucide-react", "framer-motion"],
+  "files": [
+    {
+      "path": "components/chatbot/reasoning.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

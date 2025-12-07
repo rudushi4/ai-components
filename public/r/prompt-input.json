@@ -1,0 +1,12 @@
+{
+  "name": "prompt-input",
+  "type": "registry:ui",
+  "description": "Advanced input with model selection and attachments",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/chatbot/prompt-input.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

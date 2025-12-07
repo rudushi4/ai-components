@@ -1,0 +1,12 @@
+{
+  "name": "response",
+  "type": "registry:ui",
+  "description": "Formatted AI response with actions",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/chatbot/response.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

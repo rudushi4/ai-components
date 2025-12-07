@@ -1,0 +1,13 @@
+{
+  "name": "conversation",
+  "type": "registry:ui",
+  "description": "Container for chat messages with auto-scrolling",
+  "dependencies": ["clsx"],
+  "registryDependencies": ["message", "loader"],
+  "files": [
+    {
+      "path": "components/chatbot/conversation.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "actions",
+  "type": "registry:ui",
+  "description": "Action buttons for AI responses",
+  "dependencies": ["clsx", "lucide-react"],
+  "files": [
+    {
+      "path": "components/chatbot/actions.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}

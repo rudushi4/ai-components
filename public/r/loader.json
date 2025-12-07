@@ -1,0 +1,12 @@
+{
+  "name": "loader",
+  "type": "registry:ui",
+  "description": "Loading indicators for AI operations",
+  "dependencies": ["clsx"],
+  "files": [
+    {
+      "path": "components/chatbot/loader.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}
